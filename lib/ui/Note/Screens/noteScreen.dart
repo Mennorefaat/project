@@ -6,7 +6,7 @@ import 'package:untitled1/ui/Note/Screens/editScreen.dart';
 
 import '../Model/note.dart';
 
-
+// comment
 
 class NoteScreen extends StatefulWidget {
   const NoteScreen({super.key});
