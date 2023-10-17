@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:untitled1/ui/Insta/Models/modelPosts.dart';
+import 'package:untitled1/ui/Insta/story_view_screen.dart';
 
 import 'Models/modelStories.dart';
 import 'insta_home_screen.dart';
@@ -33,12 +34,12 @@ class InstaMainScreen extends StatefulWidget {
 class _InstaMainScreenState extends State<InstaMainScreen> {
 
   List<ModelStories> stories=[
-    ModelStories('Sozy_11', 'https://img.freepik.com/premium-photo/cute-3d-cartoon-farm-girl-generative-ai_913665-1568.jpg'),
-    ModelStories('Mervat_m', 'https://img.freepik.com/premium-photo/cute-cartoon-little-girl-character-3d-rendered-generative-ai_913665-4621.jpg'),
-    ModelStories('Lila_li', 'https://img.freepik.com/premium-photo/very-cute-kid-caracter-animation-pixar-style_950002-73325.jpg'),
-    ModelStories('Sara_ss', 'https://img.freepik.com/premium-photo/very-cute-kid-caracter-animation-pixar-style_950002-73666.jpg'),
-    ModelStories('Youmna',     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_BJQdD4ybTfV67ABVAwRhRd_o6TSM6wQYJgs7EbPqpUZ-0TU_V1GENzXZcTBkrSmufOc&usqp=CAU'),
-    ModelStories('Girl_M', 'https://img.freepik.com/premium-photo/cute-3d-cartoon-farm-girl-generative-ai_913665-1568.jpg'),
+    ModelStories( 'Sozy_11',  'https://img.freepik.com/premium-photo/cute-3d-cartoon-farm-girl-generative-ai_913665-1568.jpg', true),
+    ModelStories('Mervat_m', 'https://img.freepik.com/premium-photo/cute-cartoon-little-girl-character-3d-rendered-generative-ai_913665-4621.jpg',false),
+    ModelStories('Lila_li', 'https://img.freepik.com/premium-photo/very-cute-kid-caracter-animation-pixar-style_950002-73325.jpg', true),
+    ModelStories('Sara_ss', 'https://img.freepik.com/premium-photo/very-cute-kid-caracter-animation-pixar-style_950002-73666.jpg', true),
+    ModelStories('Youmna',    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_BJQdD4ybTfV67ABVAwRhRd_o6TSM6wQYJgs7EbPqpUZ-0TU_V1GENzXZcTBkrSmufOc&usqp=CAU', false),
+    ModelStories('Girl_M', 'https://img.freepik.com/premium-photo/cute-3d-cartoon-farm-girl-generative-ai_913665-1568.jpg', false),
 
   ];
   List<ModelPosts> posts=[
@@ -47,7 +48,6 @@ class _InstaMainScreenState extends State<InstaMainScreen> {
     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_BJQdD4ybTfV67ABVAwRhRd_o6TSM6wQYJgs7EbPqpUZ-0TU_V1GENzXZcTBkrSmufOc&usqp=CAU',
       'https://img.freepik.com/premium-photo/cute-3d-cartoon-farm-girl-generative-ai_913665-1568.jpg',
       'https://www.thewowstyle.com/wp-content/uploads/2015/03/interior-design-photohouse-design-interior-decorating-ideas-qt6rqt58-Good-looking-Decoration-Inspiration-Good-looking-prom-decor-ideas-Industrial-Style.jpg',
-
     ),
     ModelPosts('Sozy_11', 'https://img.freepik.com/premium-photo/cute-3d-cartoon-farm-girl-generative-ai_913665-1568.jpg',
         'Sara_ss', 'https://img.freepik.com/premium-photo/very-cute-kid-caracter-animation-pixar-style_950002-73666.jpg',
@@ -57,6 +57,7 @@ class _InstaMainScreenState extends State<InstaMainScreen> {
   ];
   final imageUrl='https://img.freepik.com/premium-photo/3d-character-girl_416902-3051.jpg?w=360';
   int currentIndex=0;
+
   //final titles=['Home','Search','Add','Videos','Profile'];
   final List <Widget> screens=[
     const InstaHomeScreen(),
@@ -135,45 +136,57 @@ class _InstaMainScreenState extends State<InstaMainScreen> {
     return SizedBox(
       height: 100,
       child: ListView.builder(
-        itemCount:stories.length,
+        itemCount:stories.length + 1,
           scrollDirection: Axis.horizontal,
           itemBuilder: (context,index){
-            return index == 0? yourStory():Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 5),
-              child: Column(
-                children: [
-                  Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      CircleAvatar(
-                        radius: 36,
-                        backgroundColor: Colors.transparent,
-                        child: Container(
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            gradient: LinearGradient(
-                                colors: [Colors.yellow,Colors.pink,Colors.purple],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,),
+            return index == 0 ? 
+            yourStory():InkWell(
+              onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=> const StoryViewScreen())),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 5),
+                child: Column(
+                  children: [
+                    Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Visibility(
+                          visible: !stories [index-1].shown,
+                          child: CircleAvatar(
+                            radius: 36,
+                            backgroundColor: Colors.transparent,
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                gradient: LinearGradient(
+                                    colors: [
+                                      Color(0XFFf9ce34),
+                                      Color(0XFFf9ce34),
+                                      Color(0XFFee2a7b),
+                                      Color(0XFF6228d7),
+                                      ],
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,),
 
+                              ),
+
+                            ),
                           ),
-
                         ),
-                      ),
-                      const CircleAvatar(
-                        radius: 32,
-                        backgroundColor: Colors.white,
-                      ),
-                      CircleAvatar(
-                        radius: 30,
-                        backgroundImage: NetworkImage(stories[index].image,) ,
-                      ),
-                    ],
-                  ),
+                        const CircleAvatar(
+                          radius: 32,
+                          backgroundColor: Colors.white,
+                        ),
+                        CircleAvatar(
+                          radius: stories[index -1].shown ? 36:30,
+                          backgroundImage: NetworkImage(stories[index -1].image,) ,
+                        ),
+                      ],
+                    ),
 
-                  const SizedBox(height: 5,),
-                   Text(stories[index].name,style: const TextStyle(color: Colors.black),),
-                ],
+                    const SizedBox(height: 5,),
+                     Text(stories[index -1].name,style: const TextStyle(color: Colors.black),),
+                  ],
+                ),
               ),
             );
           }

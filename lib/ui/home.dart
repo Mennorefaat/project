@@ -145,11 +145,11 @@ class _LoginState extends State<Home> {
     }
     String email =emailController.text;
     String password =passwordController.text;
-    if(email == "menna@gmail.com"&& password =="123"){
-      Navigator.pushReplacement(context as BuildContext,
+    if(email == "menna@gmail.com"&& password =="123456"){
+      Navigator.pushReplacement(context,
         MaterialPageRoute(builder: (context)=> const Login()),);
     }else{
-      print('Email or password wrong');
+     // print('Email or password wrong');
       displaySnackBar('error',context);
       displayToast('Password or Email wrong');
     }
@@ -199,30 +199,37 @@ class Login extends StatelessWidget {
         title: const Text('Home Screen', style: TextStyle(color: Colors.black)),
             
       ),
-      body: Column(
-        children: [
-          Image.network(
-            'https://images.pexels.com/photos/14918477/pexels-photo-14918477.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-            height:150,
-            width:double.infinity ,
-            fit: BoxFit.cover,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
           children: [
-            Image.asset(
-              'assets/image/whatsapp.png',
-              width: 100,
-              height: 100,
+            Expanded(
+              child: Image.network(
+                'https://images.pexels.com/photos/14918477/pexels-photo-14918477.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
+                height:150,
+                width:double.infinity ,
+                fit: BoxFit.cover,
+              ),
             ),
-            Image.asset(
-              'assets/image/instagram.jpeg',
-              width: 100,
-              height: 100,
+            const SizedBox(height: 10,),
+            Expanded(
+              child: Image.network(
+                'https://img.freepik.com/premium-photo/cute-cartoon-little-girl-character-3d-rendered-generative-ai_913665-4621.jpg',
+                width: double.infinity,
+                height: 200,
+                fit: BoxFit.cover,
+              ),
+            ),
+            const SizedBox(height: 10,),
+            Expanded(
+              child: Image.network(
+                'https://img.freepik.com/premium-photo/very-cute-kid-caracter-animation-pixar-style_950002-73325.jpg',
+                width:double.infinity,
+                height: 200,
+              ),
             )
           ],
-          )
-        ],
+        ),
       ),
     );
   }
@@ -301,8 +308,7 @@ class Register extends StatelessWidget{
         const SizedBox(height: 10),
         SizedBox(
           child: OutlinedButton(
-            onPressed: () {
-            },
+            onPressed: () => Navigator.pop(context, MaterialPageRoute(builder: (context)=> const Login()),),
             style: OutlinedButton.styleFrom(shape: const StadiumBorder()) ,
             child: const Text ('Login'),
           ),

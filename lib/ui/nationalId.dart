@@ -32,6 +32,12 @@ class NationalIdState extends State<NationalId> {
 
   final titleController=TextEditingController();
   final formKey= GlobalKey<FormState>();
+String year ='';
+String month = "";
+String day = '';
+String countryCode = '';
+String gender = '';
+String idNumber= '';
 
   @override
   void initState(){
@@ -39,74 +45,64 @@ class NationalIdState extends State<NationalId> {
     titleController.text=widget.title;
   }
 
-  String nationalID = '';
-  // String firstNumber = nationalID.substring(0, 1);
-  // String secondNumber = nationalID.substring(1, 3);
-  // String thirdNumber = nationalID.substring(2, 3);
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Form(
+      key: formKey,
+      child: Scaffold(
 
-      appBar: AppBar(
-        title: const Text('National Id',style: TextStyle(color: Colors.white),),
-        centerTitle: true,
-        backgroundColor: Colors.blue,
-      ),
-      body: ListView.builder(
-        itemCount: 12,
-        itemBuilder: (context,index){
-          return buildNoteItem(index);
-        },
-      ),
-    );
-  }
-  Widget buildNoteItem(int index){
-      return Container(
-        padding: const EdgeInsets.all(20),
-        child: Form(
-          key: formKey,
-          child: Column(
-            // comment
-            children: [
-              TextFormField(
-                controller: titleController,
-                validator: (value){
-                  if (value!.isEmpty){
-                    return ' title required';
-                  }
-                  if (value!.length<14){
-                    return ' very small';
-                  }
-                  return null;
-                },
-                keyboardType: TextInputType.number,
-               decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  label: Text('title',style: TextStyle(color: Colors.blue),),
-                ),
-               ),
-              const SizedBox(height: 10,),
-              SizedBox(
-                width: double.infinity,
-                child: OutlinedButton(
-                    style: OutlinedButton.styleFrom(shape: const StadiumBorder()),
-                    onPressed: () =>  analysis(),
-                    child: const Text('Analysis')),
-              ),
-
-            ],
-          ),
+        appBar: AppBar(
+          title: const Text('National Id',style: TextStyle(color: Colors.white),),
+          centerTitle: true,
+          backgroundColor: Colors.blue,
         ),
+        body: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+      children: [
+          TextFormField(
+            // 30114300103953
+            validator: (value){
+              if(value!.startsWith("2")){
+             year = "19"+ value.substring(1,3);
+              } else if(value!.startsWith("3")){
+                year = "20"+ value.substring(1,3);
+              } else{
+                return "invalid id";
+              }
 
+            if(value!.length>12){
+              month= value.substring(3,5);
+            }else{
+              return "invalid id";
+            }
+
+            },
+            controller: titleController,
+            decoration: InputDecoration(
+              hintText: "national id"
+            ),
+
+      ),
+
+        ElevatedButton(onPressed: (){
+          if(formKey.currentState!.validate()){
+
+          setState(() {
+            print(year);
+            print(month);
+                        });
+          }
+        }, child: Text("text")),
+        Text(year),
+        Text(month),
+      ],
+      ),
+        )
+
+      ),
     );
   }
 
-  void analysis() {
-    if(!formKey.currentState!.validate()){
-      return;
-    }
-    String title =titleController.text;
-
-    Navigator.pop(context,title);
-  }
 }
